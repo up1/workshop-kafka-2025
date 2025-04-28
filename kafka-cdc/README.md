@@ -54,3 +54,33 @@ kafka-ui              provectuslabs/kafka-ui:latest   "/bin/sh -c 'java --…"  
 ```
 
 ## 5. Deploy Debezium connector
+* Use postman collection in folder `/postman`
+
+Configuration of connector
+```
+{
+    "name": "mysql-connector",
+    "config": {
+    "tasks.max": "1",
+    "connector.class": "io.debezium.connector.mysql.MySqlConnector",
+    "database.hostname": "mysql",
+    "database.port": "3306",
+    "database.user": "root",
+    "database.password": "debezium",
+    "database.include.list": "inventory",
+    "table.include.list": "inventory.orders",
+    "database.server.id": "1",
+    "message.key.columns": "inventory.orders:order_number",
+    "schema.history.internal.kafka.bootstrap.servers": "broker:19092",
+    "schema.history.internal.kafka.topic": "dbz.inventory.history",
+    "snapshot.mode": "schema_only",
+    "topic.prefix": "dbz.inventory.v2",
+    "transforms": "unwrap",
+    "transforms.unwrap.delete.handling.mode": "rewrite",
+    "transforms.unwrap.type": "io.debezium.transforms.ExtractNewRecordState"
+  }
+}
+```
+
+See result in Kafka UI
+* http://localhost:8080/
