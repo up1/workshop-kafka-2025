@@ -1,6 +1,6 @@
 # Workshop
 * Source => MySQL
-* Change Data Capture with Kafka-Connect
+* Change Data Capture with [Debezium](https://debezium.io/)
 * Event store with apache Kafka 4.0
   * Single node
 * Destination => Standard Output
@@ -28,3 +28,29 @@ Access to web ui
   * Add cluster
     * Bootstrap Servers=broker
     * Port=19092
+
+## 3. Start MySQL server
+* Data source for Debezium
+```
+$docker compose up -d mysql
+
+$docker compose ps
+NAME                IMAGE                           COMMAND                  SERVICE    CREATED              STATUS              PORTS
+broker              apache/kafka:4.0.0              "/__cacert_entrypoin…"   broker     About a minute ago   Up About a minute   0.0.0.0:9092->9092/tcp
+kafka-cdc-mysql-1   mysql:9                         "docker-entrypoint.s…"   mysql      About a minute ago   Up About a minute   0.0.0.0:3306->3306/tcp, 33060/tcp
+kafka-ui            provectuslabs/kafka-ui:latest   "/bin/sh -c 'java --…"   kafka-ui   About a minute ago   Up About a minute   0.0.0.0:8080->8080/tcp
+```
+
+## 4. Start CDC with Debezium
+```
+$docker compose up -d connect
+
+$docker compose ps
+NAME                  IMAGE                           COMMAND                  SERVICE    CREATED          STATUS          PORTS
+broker                apache/kafka:4.0.0              "/__cacert_entrypoin…"   broker     3 minutes ago    Up 3 minutes    0.0.0.0:9092->9092/tcp
+kafka-cdc-connect-1   quay.io/debezium/connect:3.1    "/docker-entrypoint.…"   connect    32 seconds ago   Up 31 seconds   8778/tcp, 0.0.0.0:8083->8083/tcp, 9092/tcp
+kafka-cdc-mysql-1     mysql:9                         "docker-entrypoint.s…"   mysql      3 minutes ago    Up 3 minutes    0.0.0.0:3306->3306/tcp, 33060/tcp
+kafka-ui              provectuslabs/kafka-ui:latest   "/bin/sh -c 'java --…"   kafka-ui   3 minutes ago    Up 3 minutes    0.0.0.0:8080->8080/tcp
+```
+
+## 5. Deploy Debezium connector
