@@ -18,7 +18,7 @@ NAME      IMAGE                COMMAND                  SERVICE   CREATED       
 broker    apache/kafka:4.0.0   "/__cacert_entrypoin…"   broker    5 seconds ago   Up 5 seconds   0.0.0.0:9092->9092/tcp
 ```
 
-## 2. Start Kafka UI
+## 2. Start [Kafka UI](https://github.com/provectus/kafka-ui)
 ```
 $docker compose up -d kafka-ui
 ```
