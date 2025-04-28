@@ -1,0 +1,89 @@
+{
+	"info": {
+		"_postman_id": "5a389631-1318-4cbe-849c-d61aea22c83d",
+		"name": "kafka-cdc",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "1453931",
+		"_collection_link": "https://red-firefly-245852.postman.co/workspace/swpark2025~c8fef688-7eb7-4ebb-87f9-30360b649129/collection/1453931-5a389631-1318-4cbe-849c-d61aea22c83d?action=share&source=collection_link&creator=1453931"
+	},
+	"item": [
+		{
+			"name": "List of connectors",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8083/connectors/"
+			},
+			"response": []
+		},
+		{
+			"name": "Add a new connector",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"mysql-connector\",\n    \"config\": {\n    \"tasks.max\": \"1\",\n    \"connector.class\": \"io.debezium.connector.mysql.MySqlConnector\",\n    \"database.hostname\": \"mysql\",\n    \"database.port\": \"3306\",\n    \"database.user\": \"root\",\n    \"database.password\": \"debezium\",\n    \"database.include.list\": \"inventory\",\n    \"table.include.list\": \"inventory.orders\",\n    \"database.server.id\": \"1\",\n    \"message.key.columns\": \"inventory.orders:order_number\",\n    \"schema.history.internal.kafka.bootstrap.servers\": \"broker:19092\",\n    \"schema.history.internal.kafka.topic\": \"dbz.inventory.history\",\n    \"snapshot.mode\": \"schema_only\",\n    \"topic.prefix\": \"dbz.inventory.v2\",\n    \"transforms\": \"unwrap\",\n    \"transforms.unwrap.delete.handling.mode\": \"rewrite\",\n    \"transforms.unwrap.type\": \"io.debezium.transforms.ExtractNewRecordState\"\n  }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8083/connectors/"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete a connector",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {",
+							"    pm.response.to.have.status(204);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": "http://localhost:8083/connectors/mysql-connector"
+			},
+			"response": []
+		}
+	]
+}
