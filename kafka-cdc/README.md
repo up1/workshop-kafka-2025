@@ -117,3 +117,9 @@ Consumer data from topic
 $/opt/kafka/bin/kafka-console-consumer.sh --bootstrap-server broker:9092 --topic dbz.inventory.v2.inventory.orders --from-beginning
 
 ```
+
+## 8. Delete all resources
+```
+$docker compose down
+$docker volume prune
+```
