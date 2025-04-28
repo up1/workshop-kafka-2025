@@ -84,3 +84,36 @@ Configuration of connector
 
 See result in Kafka UI
 * http://localhost:8080/
+
+## 6. Try to produce data into MySQL database
+```
+$docker compose exec -it mysql bash
+
+$mysql -umysqluser -pmysqlpw
+$show databases;
+$use inventory;
+$show tables;
+$select * from orders;
+
+# Insert new data
+$INSERT INTO `inventory`.`orders`(`customer_id`,`order_date`,`total_amount`)VALUES(100,'2025-04-28',100);
+
+```
+
+## 7. Try to consume data from Kafka
+```
+$docker compose exec -it broker bash
+
+# List all topics
+$/opt/kafka/bin/kafka-topics.sh --bootstrap-server broker:9092 --list
+```
+
+New topic
+* dbz.inventory.v2.inventory.orders
+
+
+Consumer data from topic
+```
+$/opt/kafka/bin/kafka-console-consumer.sh --bootstrap-server broker:9092 --topic dbz.inventory.v2.inventory.orders --from-beginning
+
+```
