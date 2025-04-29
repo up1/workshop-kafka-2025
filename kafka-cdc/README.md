@@ -118,8 +118,30 @@ $/opt/kafka/bin/kafka-console-consumer.sh --bootstrap-server broker:9092 --topic
 
 ```
 
-## 8. Delete all resources
+## 8. Start Elastic search 8
+```
+$docker compose up -d elasticsearch
+```
+
+Check status of server
+* http://localhost:9200/
+
+## 9. Start consumer with Python
+* [Kakfa python](https://github.com/dpkp/kafka-python)
+```
+$docker compose build consumer
+$docker compose up -d consumer
+```
+
+## 10. Try to produce data into MySQL database
+* Check result in elasticsearch
+  * http://localhost:9200/
+
+## Delete all resources
 ```
 $docker compose down
 $docker volume prune
 ```
+
+## Reference websites
+* [Examples for running Debezium](https://github.com/debezium/debezium-examples)
