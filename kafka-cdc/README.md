@@ -136,6 +136,10 @@ $docker compose up -d consumer
 ## 10. Try to produce data into MySQL database
 * Check result in elasticsearch
   * http://localhost:9200/
+  * List of indices
+    * http://localhost:9200/_cat/indices
+  * Search data in index=orders
+    * http://localhost:9200/orders/_search
 
 ## Delete all resources
 ```
