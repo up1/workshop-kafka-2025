@@ -3,7 +3,7 @@ from elasticsearch import Elasticsearch, helpers
 from datetime import datetime
 import json
 
-es = Elasticsearch(["http://elasticsearch:9200"])
+# es = Elasticsearch(["http://elasticsearch:9200"])
 
 consumer = KafkaConsumer(
     "dbz.inventory.v2.inventory.orders",  # Topic name
@@ -30,6 +30,7 @@ def create_bulk_actions(orders):
 
 
 if __name__ == "__main__":
+    print("Start demo with python kafka consumer")
     try:
         print("Starting message consumption...")
         while True:
@@ -40,9 +41,9 @@ if __name__ == "__main__":
             for _, records in messages.items():
                 orders = [json.loads(record.value) for record in records]
                 print(orders)
-                bulk_actions = create_bulk_actions(orders)
-                response = helpers.bulk(es, bulk_actions)
-                print(f"Indexed {response[0]} logs.")
+                # bulk_actions = create_bulk_actions(orders)
+                # response = helpers.bulk(es, bulk_actions)
+                # print(f"Indexed {response[0]} logs.")
     except Exception as e:
         print(f"Error: {e}")
     finally:
