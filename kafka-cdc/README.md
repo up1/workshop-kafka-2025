@@ -61,24 +61,31 @@ Configuration of connector
 {
     "name": "mysql-connector",
     "config": {
-    "tasks.max": "1",
-    "connector.class": "io.debezium.connector.mysql.MySqlConnector",
-    "database.hostname": "mysql",
-    "database.port": "3306",
-    "database.user": "root",
-    "database.password": "debezium",
-    "database.include.list": "inventory",
-    "table.include.list": "inventory.orders",
-    "database.server.id": "1",
-    "message.key.columns": "inventory.orders:order_number",
-    "schema.history.internal.kafka.bootstrap.servers": "broker:19092",
-    "schema.history.internal.kafka.topic": "dbz.inventory.history",
-    "snapshot.mode": "schema_only",
-    "topic.prefix": "dbz.inventory.v2",
-    "transforms": "unwrap",
-    "transforms.unwrap.delete.handling.mode": "rewrite",
-    "transforms.unwrap.type": "io.debezium.transforms.ExtractNewRecordState"
-  }
+        "tasks.max": "1",
+        "connector.class": "io.debezium.connector.mysql.MySqlConnector",
+        "database.hostname": "mysql",
+        "database.port": "3306",
+        "database.user": "root",
+        "database.password": "debezium",
+        "database.include.list": "inventory",
+        "table.include.list": "inventory.orders",
+        "database.server.id": "1",
+        "message.key.columns": "inventory.orders:order_number",
+        "schema.history.internal.kafka.bootstrap.servers": "broker:19092",
+        "schema.history.internal.kafka.topic": "dbz.inventory.history",
+        "snapshot.mode": "schema_only",
+        "topic.prefix": "dbz.inventory.v2",
+        "transforms": "unwrap,ConvertDate",
+        "transforms.unwrap.delete.handling.mode": "rewrite",
+        "transforms.unwrap.type": "io.debezium.transforms.ExtractNewRecordState",
+        "transforms.ConvertDate.type": "org.apache.kafka.connect.transforms.TimestampConverter$Value",
+        "transforms.ConvertDate.field": "order_date",
+        "transforms.ConvertDate.target.type": "string",
+        "transforms.ConvertDate.format": "yyyy-MM-dd",
+        "time.precision.mode": "connect",
+        "enable.time.adjuster": "false",
+        "decimal.handling.mode": "string"
+    }
 }
 ```
 
